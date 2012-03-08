@@ -18,38 +18,38 @@ $("#el").spin("{small, medium, large}-{left, right, top, bottom}"); // All optio
 $("#el").spin(false); // Kills the spinner.
 */
 
-(function($) {
-	$.fn.spin = function(opts, color) {
+( function( $ ) {
+	$.fn.spin = function( opts, color ) {
 		var presets = {
 			"small": { lines: 8, length: 2, width: 2, radius: 3, trail: 60, speed: 1.0 },
 			"medium": { lines: 8, length: 4, width: 3, radius: 5, trail: 60, speed: 1.0 },
 			"large": { lines: 8, length: 6, width: 4, radius: 7, trail: 60, speed: 1.0 }
 		};
-		if (Spinner) {
-			return this.each(function() {
-				var $this = $(this),
+		if ( Spinner ) {
+			return this.each( function() {
+				var $this = $( this ),
 					data = $this.data();
 				
-				if (data.spinner) {
+				if ( data.spinner ) {
 					data.spinner.stop();
 					delete data.spinner;
 				}
-				if (opts !== false) {
+				if ( opts !== false ) {
 					var spinner_options;
-					if (typeof opts === "string") {
+					if ( typeof opts === "string" ) {
 						var spinner_base = opts.indexOf( '-' );
 						if( spinner_base == -1 ) {
 							spinner_base = opts;
 						} else {
 							spinner_base = opts.substring( 0, spinner_base );
 						}
-						if (spinner_base in presets) {
+						if ( spinner_base in presets ) {
 							spinner_options = presets[spinner_base];
 						} else {
 							spinner_options = {};
 						}
 						var padding;
-						if ( opts.indexOf( "-right") != -1 ) {
+						if ( opts.indexOf( "-right" ) != -1 ) {
 							padding = jQuery( this ).css( 'padding-left' );
 							if( typeof padding === "undefined" ) {
 								padding = 0;
@@ -57,7 +57,7 @@ $("#el").spin(false); // Kills the spinner.
 								padding = padding.replace( 'px', '' );
 							}
 							// 1.2 is roughly the translation from spin.js settings to pixels
-							spinner_options.left = jQuery(this).outerWidth() - ( 1.2 * ( 2 * ( spinner_options.length + spinner_options.width + spinner_options.radius ) ) ) - padding;
+							spinner_options.left = jQuery( this ).outerWidth() - ( 2 * ( spinner_options.length + spinner_options.width + spinner_options.radius ) ) - padding;
 						}
 						if ( opts.indexOf( '-left' ) != -1 ) {
 							spinner_options.left = 0;
@@ -73,17 +73,14 @@ $("#el").spin(false); // Kills the spinner.
 								padding = padding.replace( 'px', '' );
 							}
 							// 1.2 is roughly the translation from spin.js settings to pixels
-							spinner_options.top = jQuery(this).outerHeight() - ( 1.2 * ( 2 * ( spinner_options.length + spinner_options.width + spinner_options.radius ) ) ) - padding;
-						}
-						if (color) {
-							spinner_options.color = color;
+							spinner_options.top = jQuery( this ).outerHeight() - ( 2 * ( spinner_options.length + spinner_options.width + spinner_options.radius ) ) - padding;
 						}
 					}
-					data.spinner = new Spinner($.extend({color: $this.css('color')}, spinner_options)).spin(this);
+					data.spinner = new Spinner( spinner_options ).spin( this );
 				}
 			});
 		} else {
 			throw "Spinner class not available.";
 		}
 	};
-})(jQuery);
+})( jQuery );
