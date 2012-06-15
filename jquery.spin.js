@@ -5,12 +5,11 @@
  */
 
 /*
-
 Add spin to the jQuery object
+If color is not passed the spinner will be black
 You can now create a spinner using any of the variants below:
-
-$("#el").spin(); // Produces default Spinner using the text color of #el.
-$("#el").spin("small"); // Produces a 'small' Spinner using the text color of #el.
+$("#el").spin(); // Produces default Spinner
+$("#el").spin("small"); // Produces a 'small' Spinner
 $("#el").spin("large", "white"); // Produces a 'large' Spinner in white (or any valid CSS color).
 $("#el").spin({ ... }); // Produces a Spinner using your custom settings.
 $("#el").spin("small-right"); // Pin the small spinner to the right edge
@@ -21,15 +20,15 @@ $("#el").spin(false); // Kills the spinner.
 ( function( $ ) {
 	$.fn.spin = function( opts, color ) {
 		var presets = {
-			"small": { lines: 8, length: 2, width: 2, radius: 3, trail: 60, speed: 1.0 },
-			"medium": { lines: 8, length: 4, width: 3, radius: 5, trail: 60, speed: 1.0 },
-			"large": { lines: 8, length: 6, width: 4, radius: 7, trail: 60, speed: 1.0 }
+			"small": { lines: 8, length: 2, width: 2, radius: 3, trail: 60, speed: 1.3 },
+			"medium": { lines: 8, length: 4, width: 3, radius: 5, trail: 60, speed: 1.3 },
+			"large": { lines: 10, length: 6, width: 4, radius: 7, trail: 60, speed: 1.3 }
 		};
 		if ( Spinner ) {
 			return this.each( function() {
 				var $this = $( this ),
 					data = $this.data();
-				
+
 				if ( data.spinner ) {
 					data.spinner.stop();
 					delete data.spinner;
@@ -56,14 +55,13 @@ $("#el").spin(false); // Kills the spinner.
 							} else {
 								padding = padding.replace( 'px', '' );
 							}
-							// 1.2 is roughly the translation from spin.js settings to pixels
-							spinner_options.left = jQuery( this ).outerWidth() - ( 2 * ( spinner_options.length + spinner_options.width + spinner_options.radius ) ) - padding;
+							spinner_options.left = jQuery( this ).outerWidth() - ( 2 * ( spinner_options.length + spinner_options.width + spinner_options.radius ) ) - padding - 5;
 						}
 						if ( opts.indexOf( '-left' ) != -1 ) {
-							spinner_options.left = 0;
+							spinner_options.left = 5;
 						}
 						if ( opts.indexOf( '-top' ) != -1 ) {
-							spinner_options.top = 0;
+							spinner_options.top = 5;
 						}
 						if ( opts.indexOf( '-bottom' ) != -1 ) {
 							padding = jQuery( this ).css( 'padding-top' );
@@ -72,9 +70,11 @@ $("#el").spin(false); // Kills the spinner.
 							} else {
 								padding = padding.replace( 'px', '' );
 							}
-							// 1.2 is roughly the translation from spin.js settings to pixels
-							spinner_options.top = jQuery( this ).outerHeight() - ( 2 * ( spinner_options.length + spinner_options.width + spinner_options.radius ) ) - padding;
+							spinner_options.top = jQuery( this ).outerHeight() - ( 2 * ( spinner_options.length + spinner_options.width + spinner_options.radius ) ) - padding - 5;
 						}
+					}
+					if( color ){
+						spinner_options.color = color;
 					}
 					data.spinner = new Spinner( spinner_options ).spin( this );
 				}
